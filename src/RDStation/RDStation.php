@@ -36,11 +36,11 @@ class RDStation
      */
     public function setOptions($options)
     {
-        if (!array_key_exists('token', $options)) {
+        if (!array_key_exists('token_rdstation', $options)) {
             throw new \InvalidArgumentException('Option token not found');
         }
 
-        if (!array_key_exists('identifier', $options)) {
+        if (!array_key_exists('identificador', $options)) {
             throw new \InvalidArgumentException('Option identifier not found');
         }
 
@@ -51,8 +51,6 @@ class RDStation
     public function execute($uri, $method, Array $data = [], Array $headers = [])
     {
         $data = array_merge($this->options, $data);
-        $data['identificador'] = $data['identifier'];
-        unset($data['identifier']);
 
         $client = $this->getClient();
         $client->setHeaders($headers);
@@ -73,7 +71,7 @@ class RDStation
 
         $response = $client->send();
 
-        return $response->getContent();
+        return $response->getBody();
     }
 
     /**
