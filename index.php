@@ -11,8 +11,9 @@ $options = [
 ];
 
 $data = [
-    'c_utmz' => 'http://o2.ag/sistema/',
-
+    'c_utmz' => 'compufacil',
+    'tags' => '#inativoapagar',
+ 
 ];
 
 $station = new RDStation($options);
