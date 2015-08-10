@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use Rd\Station;
+use RDStation\RDStation;
 use Zend\Http\Request;
 
 $options = [
@@ -15,7 +15,7 @@ $data = [
 
 ];
 
-$station = new Station($options);
-$response = $station->execut('/conversions', Request::METHOD_POST, $data);
+$station = new RDStation($options);
+$response = $station->execute('/conversions', Request::METHOD_POST, $data);
 
 var_dump($response);
