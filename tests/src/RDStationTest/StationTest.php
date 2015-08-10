@@ -1,13 +1,13 @@
 <?php
 
-namespace RdTest;
+namespace RdStationTest;
 
-use Rd\Station;
+use RDStation\RDStation;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Http\Request;
 
-class StationTest extends \PHPUnit_Framework_TestCase
+class RDStationTest extends \PHPUnit_Framework_TestCase
 {
     const  API_URL = 'http://www.rdstation.com.br/api/1.2';
 
@@ -18,7 +18,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             'identifier' => 'foo'
         ];
 
-        $station = new Station($options);
+        $station = new RDStation($options);
 
         $this->assertEquals($options, $station->getOptions());
     }
@@ -33,7 +33,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             'identifier' => 'foo'
         ];
 
-        (new Station($options));
+        (new RDStation($options));
     }
 
     /**
@@ -46,7 +46,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             'token' => 'foo'
         ];
 
-        (new Station($options));
+        (new RDStation($options));
     }
 
     public function testMethodGetClient()
@@ -56,7 +56,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             'identifier' => 'foo'
         ];
 
-        $station = new Station($options);
+        $station = new RDStation($options);
 
         $getClient = $this->invokeMethod($station, 'getClient');
 
@@ -80,7 +80,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
         $response = $this->mockResponse($expected);
         $client = $this->mockClient($response, $uri, Request::METHOD_POST, $data);
 
-        $station = $this->getMockBuilder(Station::class)
+        $station = $this->getMockBuilder(RDStation::class)
             ->setConstructorArgs([$options])
             ->setMethods(['getClient'])
             ->getMock();
@@ -89,7 +89,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             ->method('getClient')
             ->will($this->returnValue($client));
 
-        $response = $station->execut($uri, Request::METHOD_POST, $data, []);
+        $response = $station->execute($uri, Request::METHOD_POST, $data, []);
 
         $this->assertEquals($expected, $response);
     }
@@ -110,7 +110,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
         $response = $this->mockResponse($expected);
         $client = $this->mockClient($response, $uri, Request::METHOD_PUT, $data);
 
-        $station = $this->getMockBuilder(Station::class)
+        $station = $this->getMockBuilder(RDStation::class)
             ->setConstructorArgs([$options])
             ->setMethods(['getClient'])
             ->getMock();
@@ -119,7 +119,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             ->method('getClient')
             ->will($this->returnValue($client));
 
-        $response = $station->execut($uri, Request::METHOD_PUT, $data, []);
+        $response = $station->execute($uri, Request::METHOD_PUT, $data, []);
 
         $this->assertEquals($expected, $response);
     }
@@ -140,7 +140,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
         $response = $this->mockResponse($expected);
         $client = $this->mockClient($response, $uri, Request::METHOD_GET, $data);
 
-        $station = $this->getMockBuilder(Station::class)
+        $station = $this->getMockBuilder(RDStation::class)
             ->setConstructorArgs([$options])
             ->setMethods(['getClient'])
             ->getMock();
@@ -149,7 +149,7 @@ class StationTest extends \PHPUnit_Framework_TestCase
             ->method('getClient')
             ->will($this->returnValue($client));
 
-        $response = $station->execut($uri, Request::METHOD_GET, $data, []);
+        $response = $station->execute($uri, Request::METHOD_GET, $data, []);
 
         $this->assertEquals($expected, $response);
     }

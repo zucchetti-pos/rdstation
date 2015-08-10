@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use Rd\Station;
+use RDStation\RDStation;
 use Zend\Http\Request;
 
 $options = [
@@ -11,11 +11,12 @@ $options = [
 ];
 
 $data = [
-    'c_utmz' => 'http://o2.ag/sistema/',
-
+    'c_utmz' => 'compufacil',
+    'tags' => '#inativoapagar',
+ 
 ];
 
-$station = new Station($options);
-$response = $station->execut('/conversions', Request::METHOD_POST, $data);
+$station = new RDStation($options);
+$response = $station->execute('/conversions', Request::METHOD_POST, $data);
 
 var_dump($response);

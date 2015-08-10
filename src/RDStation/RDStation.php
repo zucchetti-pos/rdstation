@@ -1,13 +1,13 @@
 <?php
 
-namespace Rd;
+namespace RDStation;
 
 use Zend\Http\Client;
 use Zend\Http\Request;
 
-class Station
+class RDStation
 {
-    const  API_URL = 'http://www.rdstation.com.br/api/1.2';
+    const API_URL = 'http://www.rdstation.com.br/api/1.2';
 
     /**
      * @var $options array
@@ -48,7 +48,7 @@ class Station
         return $this;
     }
 
-    public function execut($uri, $method, Array $data = [], Array $headers = [])
+    public function execute($uri, $method, Array $data = [], Array $headers = [])
     {
         $data = array_merge($this->options, $data);
         $data['identificador'] = $data['identifier'];
