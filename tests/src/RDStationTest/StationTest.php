@@ -14,8 +14,8 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
     public function testParametersInConstruct()
     {
         $options = [
-            'token' => 'xyd',
-            'identifier' => 'foo'
+            'token_rdstation' => 'xyd',
+            'identificador' => 'foo'
         ];
 
         $station = new RDStation($options);
@@ -30,7 +30,7 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
     public function testExceptionParameterToken()
     {
         $options = [
-            'identifier' => 'foo'
+            'identificador' => 'foo'
         ];
 
         (new RDStation($options));
@@ -43,7 +43,7 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
     public function testExceptionParameterIdentifier()
     {
         $options = [
-            'token' => 'foo'
+            'token_rdstation' => 'foo'
         ];
 
         (new RDStation($options));
@@ -52,8 +52,8 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
     public function testMethodGetClient()
     {
         $options = [
-            'token' => 'xyd',
-            'identifier' => 'foo'
+            'token_rdstation' => 'xyd',
+            'identificador' => 'foo'
         ];
 
         $station = new RDStation($options);
@@ -66,18 +66,21 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
 
     public function testMethodExecutByPOST()
     {
-        $expected = 'OK';
+        $expected = [
+            'status' => 200,
+            'body' => ""
+        ];
 
         $options = [
-            'token' => 'xyd',
-            'identifier' => 'foo'
+            'token_rdstation' => 'xyd',
+            'identificador' => 'foo'
         ];
 
         $uri = '/conversions';
 
         $data = array_merge($options, ['foo' => 'bar']);
 
-        $response = $this->mockResponse($expected);
+        $response = $this->mockResponse(200, "");
         $client = $this->mockClient($response, $uri, Request::METHOD_POST, $data);
 
         $station = $this->getMockBuilder(RDStation::class)
@@ -96,18 +99,21 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
 
     public function testMethodExecutByPUT()
     {
-        $expected = 'OK';
+        $expected = [
+            'status' => 200,
+            'body' => ""
+        ];
 
         $options = [
-            'token' => 'xyd',
-            'identifier' => 'foo'
+            'token_rdstation' => 'xyd',
+            'identificador' => 'foo'
         ];
 
         $uri = '/leads';
 
         $data = array_merge($options, ['foo' => 'bar']);
 
-        $response = $this->mockResponse($expected);
+        $response = $this->mockResponse(200, "");
         $client = $this->mockClient($response, $uri, Request::METHOD_PUT, $data);
 
         $station = $this->getMockBuilder(RDStation::class)
@@ -126,18 +132,21 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
 
     public function testMethodExecutByGET()
     {
-        $expected = 'OK';
+        $expected = [
+            'status' => 200,
+            'body' => ""
+        ];
 
         $options = [
-            'token' => 'xyd',
-            'identifier' => 'foo'
+            'token_rdstation' => 'xyd',
+            'identificador' => 'foo'
         ];
 
         $uri = '/conversions';
 
         $data = array_merge($options, ['foo' => 'bar']);
 
-        $response = $this->mockResponse($expected);
+        $response = $this->mockResponse(200, "");
         $client = $this->mockClient($response, $uri, Request::METHOD_GET, $data);
 
         $station = $this->getMockBuilder(RDStation::class)
@@ -154,25 +163,26 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $response);
     }
 
-    public function mockResponse($expected)
+    public function mockResponse($status, $body)
     {
         $mockResponse = $this->getMockBuilder('\Zend\Http\Response')
             ->disableOriginalConstructor()
-            ->setMethods(['getContent'])
+            ->setMethods(['getStatusCode', 'getBody'])
             ->getMock();
 
         $mockResponse->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue($expected));
+            ->method('getStatusCode')
+            ->will($this->returnValue($status));
+
+        $mockResponse->expects($this->any())
+            ->method('getBody')
+            ->will($this->returnValue($body));
 
         return $mockResponse;
     }
 
     public function mockClient($response, $uri, $method, Array $data = [])
     {
-        $data['identificador'] = $data['identifier'];
-        unset($data['identifier']);
-
         $mockClient = $this->getMockBuilder('\Zend\Http\Client')
             ->disableOriginalConstructor()
             ->setMethods(['setAdapter', 'setMethod', 'setUri', 'send', 'setParameterPost', 'setParameterGet'])

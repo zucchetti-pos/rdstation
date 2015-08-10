@@ -71,7 +71,10 @@ class RDStation
 
         $response = $client->send();
 
-        return $response->getBody();
+        return [
+            'status' => $response->getStatusCode(),
+            'body' => $response->getBody()
+        ];
     }
 
     /**
