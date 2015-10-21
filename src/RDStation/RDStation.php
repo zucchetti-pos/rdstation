@@ -80,9 +80,10 @@ class RDStation
     /**
      * @return Client
      */
-    protected function getClient()
+    public function getClient()
     {
-        $client = new Client();
+        $clientOptions = (isset($this->options['client'])) ? $this->options['client'] : [];
+        $client = new Client(null, $clientOptions);
         $client->setAdapter(new Client\Adapter\Curl());
 
         return $client;

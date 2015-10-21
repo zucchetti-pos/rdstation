@@ -63,7 +63,6 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Client::class, $getClient);
     }
 
-
     public function testMethodExecutByPOST()
     {
         $expected = [
@@ -220,7 +219,7 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
         return $mockClient;
     }
 
-    /**
+    /*
      * Call protected/private method of a class.
      *
      * @param object &$object    Instantiated object that we will run method on.
@@ -236,5 +235,25 @@ class RDStationTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         return $method->invokeArgs($object, $parameters);
+    }
+
+    public function testSetTimeout()
+    {
+        $options = [
+            'token_rdstation' => 'xyd',
+            'identificador' => 'foo',
+            'client' => [
+                'timeout' => 666
+            ]
+        ];
+
+        $station = new RDStation($options);
+        $httpClient = $station->getClient();
+        $reflection = new \ReflectionObject($httpClient);
+        $property = $reflection->getProperty('config');
+        $property->setAccessible(true);
+        $options = $property->getValue($httpClient);
+
+        $this->assertEquals(666, $options['timeout']);
     }
 }
