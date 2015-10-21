@@ -2,3 +2,5 @@
 .DS_Store
 vendor
 tests/_reports/*
+composer.phar
+tests/_reports
