@@ -1,5 +1,5 @@
 {
-  "name": "compufour/rdstation",
+  "name": "zucchetti-pos/rdstation",
   "description": "Integração com o RDStation",
   "minimum-stability": "stable",
   "require": {
